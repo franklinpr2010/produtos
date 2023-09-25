@@ -20,6 +20,12 @@ Este pequeno projeto é parte do material didático da disciplina Desenvolviment
 
 Acesse: http://127.0.0.1:5002
 
+Abaixo a collection do postman.
+
+https://drive.google.com/file/d/14B-ojngLyrxIeY18XJoKAzf7myO2-iPJ/view?usp=drive_link
+
+
+
 
 
 
