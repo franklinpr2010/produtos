@@ -1,0 +1,3280 @@
+openapi: 3.0.3
+info:
+  title: CS-Client-Engagement-API-BR
+  description: This API control engagement's campaign creation and provide data for billing and report purposes.
+  contact:
+    name: Experian API Team
+    email: PlataformaEngajamento@br.experian.com
+  version: 1.0.0
+servers:
+  - url: https://sandbox-api.serasaexperian.com.br/credit-services/engagement/v1
+paths:
+
+  /migration/campaigns/large:
+    post:
+      tags:
+        - CampaignMigration
+      summary: Create multiple campaigns LARGE
+      description: Creates multiple campaigns from legacy products with opt in created.
+      security:
+        - OauthSecurityClient:
+            - write
+      operationId: createCampaignFromLegacyProduct
+      requestBody:
+        description: Campaign
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignMigration'
+      responses:
+        '201':
+          description: Successful Created
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/CampaignMigrationResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /migration/campaigns/pme:
+    post:
+      tags:
+        - CampaignMigration
+      summary: Create multiple campaigns PME
+      description: Creates multiple campaigns from legacy products with opt in created.
+      security:
+        - OauthSecurityClient:
+            - write
+      operationId: createCampaignFromLegacyProductPME
+      requestBody:
+        description: Campaign
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignMigrationPME'
+      responses:
+        '201':
+          description: Successful Created
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/CampaignMigrationResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /campaigns:
+    post:
+      tags:
+        - Campaign
+      summary: Create a campaign
+      description: Creates a new campaign.
+      security:
+        - OauthSecurityClient:
+            - write
+      operationId: createCampaign
+      requestBody:
+        description: Campaign
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignModel'
+      parameters:
+        - in: header
+          name: campaignTypeCreation
+          schema:
+            $ref: '#/components/schemas/CampaignTypeCreation'
+        - in: header
+          name: step
+          schema:
+            type: integer
+      responses:
+        '201':
+          description: Successful Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CampaignResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+    get:
+      tags:
+        - Campaign
+      summary: Get all campaigns
+      description: Get all campaigns
+      security:
+        - OauthSecurityClient:
+            - write
+      operationId: getAllCampaign
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/CampaignModel'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /campaigns/{campaignId}:
+    put:
+      tags:
+        - Campaign
+      summary: Update a campaign
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Update a new campaign with banner, features and discount rules.
+      operationId: updateCampaign
+      parameters:
+        - in: header
+          name: campaignTypeCreation
+          schema:
+            $ref: '#/components/schemas/CampaignTypeCreation'
+        - in: header
+          name: step
+          schema:
+            type: integer
+        - in: path
+          name: campaignId
+          description: Campaign id.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Campaign
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignModel'
+      responses:
+        '201':
+          description: Successful Update
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CampaignResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+    get:
+      tags:
+        - Campaign
+      summary: Get a campaign by id
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Get a campaign
+      operationId: getCampaignById
+      parameters:
+        - in: path
+          name: campaignId
+          description: Campaign id.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CampaignModel'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+
+  /campaigns/{campaignId}/opt-out:
+    put:
+      tags:
+        - Campaign
+      summary: Remove the customer of the campaign previously accepted
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Search for a valid and accepted campaign of the customer, and return all discounts.
+      operationId: cancelCustomerCampaign
+      parameters:
+        - in: path
+          name: campaignId
+          description: Campaign id.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: OptOut
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OptOut'
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '405':
+          description: Error for when the HTTP method is not supported by the resource/element.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '406':
+          description: Error for Media Type of unsupported response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '412':
+          description: Precondition Failure. Only used in conjunction with Headers.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '422':
+          description: Business error. Syntactically correct, semantically not.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '428':
+          description: When we use precondition headers that are not passed in the request. Example - If-Match.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        'default':
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /campaigns/{campaignId}/banners/{bannerId}:
+    put:
+      tags:
+        - Campaign
+      summary: Bind the banner at the Campaign
+      security:
+        - OauthSecurityClient:
+            - write
+      description: linkedBannerToCampaign
+      operationId: linkedBannerToCampaign
+      parameters:
+        - in: path
+          name: campaignId
+          description: Campaign id.
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: bannerId
+          description: Banner id.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+
+  /campaigns/{campaignId}/fileId/{fileId}:
+    put:
+      tags:
+        - Campaign
+      summary: Add customers at campaign with CSV file
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Update a new campaign with banner, features and discount rules.
+      operationId: addCustomersByFile
+      parameters:
+        - in: path
+          name: campaignId
+          description: Campaign id.
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: fileId
+          description: Id of CSV file storaged in DT drive.
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Successful Update
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CampaignResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /campaigns/documents/{document}/logon/{logon}:
+    post:
+      tags:
+        - Campaign
+      summary: Receives the response of the customer about the campaign
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Save the response of the customer about the campaign
+      operationId: saveCustomerCampaignResponseList
+      parameters:
+        - name: campaigns
+          description: Campaigns to optin
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - in: path
+          name: document
+          description: Document of the customer.
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: logon
+          description: Logon that responded to the campaign.
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: customerResponse
+          description: Answer of the customer.
+          required: true
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+
+  /campaigns/{campaignId}/documents/{document}/logon/{logon}:
+    post:
+      tags:
+        - Campaign
+      summary: Receives the response of the customer about the campaign
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Save the response of the customer about the campaign
+      operationId: saveCustomerCampaignResponse
+      parameters:
+        - name: campaignId
+          description: Campaign to Optin
+          in: path
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: document
+          description: Document of the customer.
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: logon
+          description: Logon that responded to the campaign.
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: customerResponse
+          description: Answer of the customer.
+          required: true
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /campaigns/parametrized:
+    get:
+      tags:
+        - Campaign
+      summary: Get all campaigns parametrized
+      description: Get all campaigns parametrized
+      security:
+        - OauthSecurityClient:
+            - write
+      operationId: getAllCampaignParametrized
+      parameters:
+        - in: query
+          name: name
+          description: Campaign Name.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: personType
+          description: Person Type.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: reportName
+          description: Report Name.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: campaignType
+          description: Campaign Type.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: productId
+          description: Product Id.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: startDate
+          description: Start Date.
+          required: false
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: endDate
+          description: End Date.
+          required: false
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: exhibitionStartDate
+          description: Exhibition Start Date.
+          required: false
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: exhibitionEndDate
+          description: Exhibition EndDate.
+          required: false
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: actionAfterEnd
+          description: Action After End.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: campaignStatus
+          description: Campaign Status.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: document
+          description: Document.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: pageNumber
+          description: Page Number.
+          required: false
+          schema:
+            default: 0
+            type: integer
+        - in: query
+          name: pageSize
+          description: Page Size.
+          required: false
+          schema:
+            default: 10
+            type: integer
+
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FilterCampaignResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /campaigns/{campaignId}/removeCustomer/{document}:
+    patch:
+      tags:
+        - Campaign
+      summary: Remove a customer
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Remove a customer from campaign
+      operationId: removeCustomerFromCampaign
+      parameters:
+        - in: path
+          name: campaignId
+          description: Campaign id.
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: document
+          description: document of the customer.
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Successful Update
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /campaigns/{campaignId}/discounts:
+    get:
+      tags:
+        - Campaign
+      summary: Get all discounts by campaign
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Creates a new campaign with banner, features and discount rules.
+      operationId: getDiscountsByCampaign
+      parameters:
+        - in: path
+          name: campaignId
+          description: Campaign ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/DiscountModel'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /campaigns/{campaignId}/add/discounts:
+    put:
+      tags:
+        - Campaign
+      summary: Save discounts at the campaign
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Add discounts at campaign
+      operationId: saveDiscountAtCampaign
+      parameters:
+        - in: path
+          name: campaignId
+          description: Campaign ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: DiscountPrice
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+                example: [ "id1", "id2", "id3" ]
+
+
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+  /campaigns/{campaignId}/remove/discounts:
+    put:
+      tags:
+        - Campaign
+      summary: Remove discounts of the campaign
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Remove discounts of the campaign
+      operationId: deleteDiscountAtCampaign
+      parameters:
+        - in: path
+          name: campaignId
+          description: Campaign ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Campaign
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+                example: [ "id1", "id2", "id3" ]
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+
+
+  /campaigns/{campaignId}/customer/interactions:
+    get:
+      tags:
+        - Campaign
+      summary: Get all customers interactions by campaign
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Get all customers interactions by campaign
+      operationId: getAllAnswersByCampaignId
+      parameters:
+        - in: path
+          name: campaignId
+          description: Campaign id.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/CustomerInteraction'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /campaigns/products/{productId}:
+    get:
+      tags:
+        - Campaign
+      summary: Get all campaign by product id
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Get all campaigns by product id
+      operationId: getCampaignsByProductId
+      parameters:
+        - in: path
+          name: productId
+          description: Product id.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/CampaignModel'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /campaigns/reports/{reportName}/documents/{document}:
+    get:
+      tags:
+        - Campaign
+      summary: Get the campaigns of the customer and all relevant data
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Recover banners to be exhibited, campaings accepted and all features to be manipulated.
+      operationId: getCampaignByReportNameAndDocument
+      parameters:
+        - in: path
+          name: reportName
+          description: Name of the report.
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: document
+          description: Document of the customer.
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Successful Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerData'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /campaigns/reports/documents/{document}:
+    get:
+      tags:
+        - Campaign
+      summary: Get the campaigns of the customer and all relevant data
+      security:
+        - OauthSecurityClient:
+            - write
+      description: get all reports by user
+      operationId: getCampaignByReportsAndDocument
+      parameters:
+        - name: reports
+          description: REPORT NAME
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - in: path
+          name: document
+          description: Document of the customer.
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Successful Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerReportCampaignResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /campaigns/{campaignId}/customer:
+    delete:
+      tags:
+        - Campaign
+      summary: Delete customers of campaign
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Delete customers of campaign
+      operationId: deleteCustomersOfCampaign
+      parameters:
+        - in: path
+          name: campaignId
+          description: Campaign id.
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful Delete
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /campaigns/{campaignId}/add/discounts/new:
+    put:
+      tags:
+        - Campaign
+      summary: Save discounts at the campaign with valid return
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Add discounts at campaign
+      operationId: saveDiscountAtCampaignNew
+      parameters:
+        - in: path
+          name: campaignId
+          description: Campaign ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: DiscountPrice
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+                example: [ "id1", "id2", "id3" ]
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Ok
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /discounts:
+    post:
+      tags:
+        - Discount
+      summary: Create a discount
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Creates a new discount with the transaction to be replaced and the transaction with discount.
+      operationId: createDiscount
+      requestBody:
+        description: Campaign
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiscountModel'
+      responses:
+        '201':
+          description: Successful Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiscountModel'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+    get:
+      tags:
+        - Discount
+      summary: Get all discounts
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Creates a new campaign with banner, features and discount rules.
+      operationId: getAllDiscounts
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/DiscountModel'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /discounts/{discountId}:
+    put:
+      tags:
+        - Discount
+      summary: Update a discount
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Update a new discount with the transaction to be replaced and the transaction with discount.
+      operationId: updateDiscount
+      requestBody:
+        description: Discount
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiscountModel'
+      parameters:
+        - in: path
+          name: discountId
+          description: Discount ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful Update
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiscountModel'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+    get:
+      tags:
+        - Discount
+      summary: Get a discounts
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Creates a new campaign with banner, features and discount rules.
+      operationId: getDiscountById
+      parameters:
+        - in: path
+          name: discountId
+          description: Discount ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiscountModel'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /features:
+    post:
+      tags:
+        - Discount
+      summary: Create a feature
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Creates a new feature.
+      operationId: createFeature
+      requestBody:
+        description: Feature
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeatureModel'
+      responses:
+        '201':
+          description: Successful Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeatureModel'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+    get:
+      tags:
+        - Discount
+      summary: Get all features
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Get all features.
+      operationId: getAllFeatures
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/FeatureModel'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /features/{featureId}:
+    put:
+      tags:
+        - Discount
+      summary: Update a feature
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Update a feature.
+      operationId: updateFeature
+      requestBody:
+        description: Feature
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeatureModel'
+      parameters:
+        - in: path
+          name: featureId
+          description: Feature ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful Update
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeatureModel'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+    get:
+      tags:
+        - Discount
+      summary: Get a feature
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Get a feature by id.
+      operationId: getFeatureById
+      parameters:
+        - in: path
+          name: featureId
+          description: Feature ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeatureModel'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+    patch:
+      tags:
+        - Discount
+      summary: Remove product code from a feature
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Remove product code.
+      operationId: removeProductCode
+      requestBody:
+        description: Product codes to remove
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+                example: [ "id1", "id2", "id3" ]
+      parameters:
+        - in: path
+          name: featureId
+          description: Feature ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful Update
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeatureModel'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /features/transaction/{transaction}:
+    get:
+      tags:
+        - Discount
+      summary: Get a feature by transaction
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Get a feature by transaction.
+      operationId: getFeatureByTransaction
+      parameters:
+        - in: path
+          name: transaction
+          description: Feature transaction
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeatureModel'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /features/filter:
+    get:
+      tags:
+        - Discount
+      summary: Get a feature by filter
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Get a feature by transaction.
+      operationId: getFeatureByFilter
+      parameters:
+        - in: query
+          name: draw
+          description: draw datatable
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: start
+          description: Start datatable
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: length
+          description: Length datatable
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: search[value]
+          description: Length datatable
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FilterFeatureResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /banners:
+    post:
+      tags:
+        - Banner
+      summary: Create a banner
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Creates a new banner.
+      operationId: createBanner
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                banner:
+                  $ref: '#/components/schemas/BannerModel'
+                fileName:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Successful Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BannerModel'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+    get:
+      tags:
+        - Banner
+      summary: Return all banners
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Creates a new banner.
+      operationId: getAllBanners
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/BannerModel'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /banners/{bannerId}:
+    put:
+      tags:
+        - Banner
+      summary: Update a banner
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Update a new banner.
+      operationId: updateBanner
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BannerModel'
+      parameters:
+        - in: path
+          name: bannerId
+          description: Id of the banner
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful Update
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BannerModel'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+    get:
+      tags:
+        - Banner
+      summary: Get a banner
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Creates a new banner.
+      operationId: getBannerById
+      parameters:
+        - in: path
+          name: bannerId
+          description: Id of the banner
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BannerModel'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /banner/campaign/{campaignId}:
+    delete:
+      tags:
+        - Banner
+      summary: Delete a banner of campaign
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Delete banner campaign
+      operationId: deleteBannerOfCampaign
+      parameters:
+        - in: path
+          name: campaignId
+          description: Campaign id.
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful Delete
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /offers/reports/documents/{document}:
+    get:
+      tags:
+        - Offers
+      summary: Get the offers of the customer and all relevant data
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Recover offers to new front
+      operationId: getOffersByDocument
+      parameters:
+        - in: path
+          name: document
+          description: Document of the customer.
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/OffersData'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+
+
+  /retention-policy/additional-types:
+    get:
+      tags:
+        - RetentionPolicy
+      summary: Get all retention policy behaviour, benefits and application type
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Get all retention policy behaviour, benefits and application type
+      operationId: getRetentionPolicyAdditionalType
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetentionPolicyTypeResponseModel'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+
+  /retention-policy/filter:
+    get:
+      tags:
+        - RetentionPolicy
+      summary: Get a retention by filter
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Get a retention.
+      operationId: getRetentionByFilter
+      parameters:
+        - in: query
+          name: pageIndex
+          description: pageIndex datatable
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: pageSize
+          description: pageSize datatable
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: sort
+          description: sort datatable
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: column
+          description: query sort datatable
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FilterRetentionPolicyResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /retention-policy:
+    post:
+      tags:
+        - RetentionPolicy
+      summary: Post a retention policy
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Post a retention policy.
+      operationId: createRetentionPolicy
+      requestBody:
+        description: Retention policy
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RetentionPolicySaveRequestModel'
+      responses:
+        '201':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetentionPolicySaveResponseModel'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+  /retention-policy/campaign/{campaignId}:
+    get:
+      tags:
+        - RetentionPolicy
+      summary: Get a retention by campaign id
+      security:
+        - OauthSecurityClient:
+            - write
+      description: Get a retention list by campaign id.
+      operationId: getRetentionListByCampaignId
+      parameters:
+        - in: path
+          name: campaignId
+          description: campaignId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FilterRetentionPolicyResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '401':
+          description: Authorization Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+
+components:
+  securitySchemes:
+    OauthSecurityClient:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://sandbox-api.serasaexperian.com.br/security/iam/v1/client-identities/login'
+          scopes:
+            read: Client read scope
+            write: Client write scope
+
+  schemas:
+    CampaignModel:
+      type: object
+      properties:
+        campaignId:
+          type: string
+          description: Campaign id
+          example: 6393189134f4c971e490af34
+        name:
+          type: string
+          description: Campaign name
+          example: Quadro Social para Clientes PME
+        campaignHexadecimalId:
+          type: string
+          description: generate sequencial hexadecimal id
+          example: 34F
+        description:
+          type: string
+          description: Description name
+          example: Quadro Social para Clientes PME
+        productId:
+          type: string
+          description: Product Id
+          example: CREDNET
+        reportName:
+          type: string
+          description: Report name
+          example: PROTESTOS_TESTE_FILTRO
+        personType:
+          $ref: '#/components/schemas/PersonType'
+        channelType:
+          $ref: '#/components/schemas/ChannelType'
+        campaignType:
+          $ref: '#/components/schemas/CampaignType'
+        campaignStatusCreation:
+          $ref: '#/components/schemas/CampaignStatusCreation'
+        startDate:
+          type: string
+          format: date
+          description: Date when the discount can be applied if accepted
+          example: "2023-02-25"
+        endDate:
+          type: string
+          format: date
+          description: End date of the discount
+          example: "2023-02-25"
+        exhibitionStartDate:
+          type: string
+          format: date
+          description: Date when the banner can be displayed
+          example: "2023-02-25"
+        exhibitionEndDate:
+          type: string
+          format: date
+          description: End date of the banner
+          example: "2023-02-25"
+        termsOfUse:
+          $ref: '#/components/schemas/TermsOfUseModel'
+        customerDocuments:
+          description: List of customers of the campaign
+          items:
+            $ref: '#/components/schemas/CustomerDocumentModel'
+        actionAfterEnd:
+          $ref: '#/components/schemas/ActionAfterEnd'
+        banner:
+          $ref: '#/components/schemas/BannerModel'
+        campaignDiscountType:
+          type: string
+          description: Campaign's discounts type
+          example: "default"
+        discountPrices:
+          description: Discount's list with intended price type campaign.
+          items:
+            $ref: '#/components/schemas/DiscountPriceModel'
+        detailsLogonCreation:
+          $ref: '#/components/schemas/DetailsLogonCreationModel'
+          x-field-extra-annotation: "@com.fasterxml.jackson.annotation.JsonIgnore"
+        retentionPolicyExpired:
+          $ref: '#/components/schemas/RetentionPolicyModel'
+      required:
+        - campaignStatusCreation
+
+    RetentionPolicyModel:
+      type: object
+      properties:
+        id:
+          type: string
+          description: id
+          example: 6393189134f4c971e490af34
+        title:
+          type: string
+          description: Retention title
+          example: Retention title
+        endDate:
+          type: string
+          format: date
+          description: End date of the retention
+          example:
+            "2023-02-25":
+        startDate:
+          type: string
+          format: date
+          description: Start date of the retention
+          example:
+            "2023-02-25":
+        applicationType:
+          type: string
+          description: Retention Application type
+          example: Retention Application type
+        retentionBenefits:
+          type: string
+          description: Retention Benefits
+          example: Retention Benefits
+        retentionBehaviour:
+          type: string
+          description: Retention Behaviour
+          example: Retention Behaviour
+
+    DetailsLogonCreationModel:
+      type: object
+      properties:
+        personName:
+          type: string
+          description: Name person of the logon
+        logon:
+          type: string
+          description: Logon of the costumer
+        creationDate:
+          type: string
+          format: date-time
+          description: End date of the banner
+          example: "2023-02-25T00:00:00"
+
+
+    CampaignResponse:
+      type: object
+      properties:
+        campaignModel:
+          $ref: '#/components/schemas/CampaignModel'
+        invalidDocuments:
+          description: List of customers of the campaign
+          items:
+            $ref: '#/components/schemas/CustomerDocumentModel'
+        segmentedCustomer:
+          type: integer
+          description: List of customer that inserted in dataBase
+        conflictingCustomer:
+          type: integer
+          description: List of customer that had conflict in dataBase
+        messageBannerConflict:
+          type: string
+          description: Message appears when there is other campaign with the same report in the same interval with the same cnpj
+
+    OptOut:
+      type: object
+      properties:
+        document:
+          type: string
+          description: document customer
+        optoutLogon:
+          type: string
+          description: user logon
+        reason:
+          type: string
+          description: reason optout.
+        feedback:
+          type: String
+          description: customer feedback
+
+
+    FilterFeatureResponse:
+      type: object
+      properties:
+        draw:
+          type: integer
+          description: draw feature filter
+        recordsTotal:
+          type: long
+          description: recordsTotal
+        recordsFiltered:
+          type: long
+          description: recordsFiltered
+        data:
+          type: array
+          description: List feature
+          items:
+            $ref: '#/components/schemas/FeatureModel'
+
+
+    FilterRetentionPolicyResponse:
+      type: object
+      properties:
+        recordsTotal:
+          type: long
+          description: recordsTotal
+        pageNumber:
+          type: int
+          description: pageNumber of pagination
+        pageSize:
+          type: int
+          description: pageSize of pagination
+        recordsFiltered:
+          type: long
+          description: recordsFiltered
+        data:
+          type: array
+          description: List retention
+          items:
+            $ref: '#/components/schemas/RetentionPolicyModel'
+
+    FilterCampaignResponse:
+      type: object
+      properties:
+        recordsTotal:
+          type: long
+          description: recordsTotal
+        recordsFiltered:
+          type: long
+          description: recordsFiltered
+        data:
+          type: array
+          description: List feature
+          items:
+            $ref: '#/components/schemas/CampaignModel'
+
+
+    DiscountModel:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the discount
+          example: 6393189134f4c971e490af34
+        discountPercentage:
+          type: number
+          description: Discount amount
+          example: 80%
+        discountPrice:
+          type: string
+          description: intended literal amount of discount
+          example: R$ 10,53
+        featureId:
+          type: string
+          description: ID of the feature
+          example: 6393189134f4c971e490af34
+        feature:
+          $ref: '#/components/schemas/FeatureModel'
+      required:
+        - featureId
+
+    DiscountPriceModel:
+      type: object
+      properties:
+        document:
+          type: string
+          description: document number
+          example: 0000000010
+        itemsContractDiscount:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemContractDiscountModel'
+      required:
+        - discountId
+        - discountPrice
+
+    ItemContractDiscountModel:
+      type: object
+      properties:
+        discountPrice:
+          type: string
+          description: Discount amount
+          example: 10,52
+        discountPercentage:
+          type: string
+          description: ID of the discount added
+          example: 12.635465456
+        discountId:
+          type: string
+          description: ID of the discount added
+          example: 6393189134f4c971e490af34
+        productCode:
+          type: string
+          description: Code of feature product (SF_PROD_CodProd)
+          example: 2104
+        contractCode:
+          type: string
+          description: Code of feature contract (SF_ITCT_Sequencial)
+          example: 0020
+        contractNumber:
+          type: string
+          description: Contract Number (SF_CONT_NumContrSis)
+          example: 0002
+
+    FeatureModel:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the feature
+          example: 6393189134f4c971e490af34
+        featureName:
+          type: string
+          description: Name of the feature
+          example: FEATURE_FLAG_NEGATIVO_SPC_PF
+        featureTransaction:
+          type: string
+          description: Feature transaction
+          example: NRJA
+        productsCodes:
+          type: array
+          description: List products codes
+          items:
+            type: string
+            description: Code of product (SF_PROD_CodProd)
+            example: 2134
+      required:
+        - featureName
+        - featureTransaction
+        - productsCodes
+
+    ClientCampaignReponse:
+      type: object
+      properties:
+        clientCampaignReponseId:
+          type: string
+          description: Campaign id
+          example: 6393189134f4c971e490af34
+        campaignId:
+          type: string
+          description: Campaign id
+          example: 6393189134f4c971e490af34
+        userDocument:
+          type: string
+          description: Document of the client
+          example: 62173620
+        response:
+          type: boolean
+          description: User's response
+          example: 6393189134f4c971e490af34
+        responseDate:
+          type: string
+          format: date
+          description: Date when the client send the response
+          example: "2023-02-25 15:50:15"
+
+    BannerModel:
+      type: object
+      properties:
+        bannerId:
+          type: string
+          description: ID of the banner
+          example: 6393189134f4c971e490af34
+        name:
+          type: string
+          description: Banner name
+          example: "Quadro Social para Clientes PME"
+        imageLink:
+          type: string
+          description: Link where the imagem is hosted
+          example: https://s3-link.com
+        fileId:
+          type: string
+          description: file id of banner
+          example: 478482378423947234789
+      required:
+        - name
+
+    BannerRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Banner name
+          example: "Quadro Social para Clientes PME"
+      required:
+        - name
+
+    CampaignData:
+      type: object
+      properties:
+        campaign:
+          $ref: '#/components/schemas/CampaignModel'
+        campaignStatus:
+          $ref: '#/components/schemas/CustomerResponseStatus'
+        campaignDiscounts:
+          items:
+            $ref: '#/components/schemas/DiscountModel'
+        totalCampaignDiscounts:
+          type: integer
+          description: Total of features with discount
+          example: 3
+
+
+    OffersData:
+      type: object
+      properties:
+        campaign:
+          $ref: '#/components/schemas/CampaignModel'
+        campaignDiscounts:
+          items:
+            $ref: '#/components/schemas/DiscountModel'
+        customerCampaign:
+          $ref: '#/components/schemas/CustomerCampaignModel'
+        campaignMigrated:
+          type: boolean
+          description: Flag to campaigns migrated
+          example: true
+
+    CustomerCampaignModel:
+      description: CustomerCampaign
+      type: object
+      properties:
+        response:
+          type: boolean
+          description: response of customer campaign
+          example: true
+        optOut:
+          type: boolean
+          description: response of customer campaign
+          example: true
+        responseDate:
+          type: string
+          format: date
+          description: Date when the client send the response
+          example: "2023-02-25 15:50:15"
+        optoutLogon:
+          type: string
+          description: user logon
+        logon:
+          description: Logon (only for indirect companies)
+          type: string
+          example: 340930
+        optOutDate:
+          description: Opt-out date
+          type: string
+          example: '2023-05-05'
+
+
+    CampaignOfferModel:
+      description: Features to return in Offers
+      type: object
+      properties:
+        featureId:
+          type: string
+          description: id of the feature
+          example: 6393189134f4c971e490af34
+        percentualDiscount:
+          type: number
+          description: Discount amount
+          example: 80%
+        description:
+          type: string
+          description: descriptionFeature
+          example: description feature
+        name:
+          description: name of features
+          type: string
+          example: feature de teste
+
+
+    FeatureOfferModel:
+      description: Features to return in Offers
+      type: object
+      properties:
+        featureId:
+          type: string
+          description: id of the feature
+          example: 6393189134f4c971e490af34
+        percentualDiscount:
+          type: number
+          description: Discount amount
+          example: 80%
+        description:
+          type: string
+          description: descriptionFeature
+          example: description feature
+        name:
+          description: name of features
+          type: string
+          example: feature de teste
+
+    CustomerData:
+      type: object
+      properties:
+        campaigns:
+          items:
+            $ref: '#/components/schemas/CampaignData'
+        afterEnd:
+          items:
+            $ref: '#/components/schemas/AfterEndFeatures'
+
+
+    CustomerDocumentModel:
+      description: Customer document and contract data
+      type: object
+      properties:
+        customerDocumentId:
+          type: string
+          description: id of the customer document
+          example: 6393189134f4c971e490af34
+        document:
+          type: string
+          description: Document of the company
+          example: 62173620
+        documentName:
+          type: string
+          description: Name of the company
+          example: Porsche
+        logon:
+          description: Logon (only for indirect companies)
+          type: string
+          example: 340930
+        customerContracts:
+          items:
+            $ref: '#/components/schemas/CustomerContractModel'
+        discountPrice:
+          items:
+            $ref: '#/components/schemas/DiscountPriceModel'
+      required:
+        - customerDocumentId
+
+    CustomerContractModel:
+      description: Customer contract by product
+      type: object
+      properties:
+        contractNumber:
+          type: string
+          description: identification of the contract
+          example: 6393189134f4c971e490af34
+        productsCodes:
+          type: array
+          description: List products codes
+          items:
+            properties:
+              productCode:
+                type: string
+                description: Code of feature product (SF_PROD_CodProd)
+                example: 2134
+              contractCode:
+                type: string
+                description: Code of feature contract (SF_ITCT_Sequencial)
+                example: 2134
+
+    CampaignStatus:
+      description: Status of the campaign.
+      type: string
+      enum:
+        - APPROVED
+        - WAITING_APPROVAL
+        - NOT_COMPLETED
+
+    CustomerResponseStatus:
+      description: Status of the customer interaction with the campaign.
+      type: string
+      enum:
+        - ACCEPTED
+        - RECUSED
+        - NOT_RESPONDED
+        - OPT_OUT
+
+    CustomerInteraction:
+      type: object
+      properties:
+        campaignStatus:
+          $ref: '#/components/schemas/CustomerResponseStatus'
+        interactions:
+          type: array
+          items:
+            properties:
+              document:
+                type: string
+                description: Document of the company
+                example: 62173620
+              logon:
+                description: Logon that responded to the campaign
+                type: string
+                example: 340930
+              answerDate:
+                description: Date that responded to the campaign
+                type: string
+                example: '2023-05-05'
+              isOptOut:
+                description: If customer has opt-out
+                type: boolean
+                example: false
+              optOutDate:
+                description: Opt-out date
+                type: string
+                example: '2023-05-05'
+
+    ActionAfterEnd:
+      description: Visualization status after the end of the campaign
+      type: string
+      enum:
+        - DEFAULT
+        - FORCED
+        - PRE_CLICK
+
+    AfterEndFeatures:
+      type: object
+      description: Features and ActionAfterEnd status
+      properties:
+        discounts:
+          items:
+            $ref: '#/components/schemas/DiscountModel'
+        afterEndStatus:
+          $ref: '#/components/schemas/ActionAfterEnd'
+
+    PersonType:
+      description: a flag identifying person type (PF/PJ)
+      type: string
+      enum:
+        - PJ
+        - PF
+
+    ChannelType:
+      description: channel that identity type of campaign (P/L)
+      type: string
+      enum:
+        - P
+        - L
+
+    CampaignType:
+      description: type of the campaign
+      type: string
+      enum:
+        - OPT_IN
+        - OPT_OUT
+        - FREE
+
+    CampaignStatusCreation:
+      description: status creation of the campaign
+      type: string
+      enum:
+        - DRAFT
+        - FINALIZED
+        - CANCEL
+
+    CampaignTypeCreation:
+      description: Campaign Type of the creation
+      type: string
+      enum:
+        - LARGE
+        - PME
+
+    TermsOfUseModel:
+      description: Termos of use of campaign
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of terms
+          example: Terms of Use
+        subtitle:
+          type: string
+          description: Subtitle of terms
+          example: Subtitle of terms
+        periodText:
+          type: string
+          description: Period text
+          example: 10/10/2023 - 15/10/2023
+        paragraphs:
+          type: array
+          description: List of paragraphs
+          items:
+            properties:
+              sequenceOrder:
+                type: integer
+                description: parapraph sequence position
+                example: 1
+              paragraphText:
+                type: string
+                description: paragraph
+                example: Lorem ipsum
+        acceptCssButton:
+          type: string
+          description: Accept ass Button
+          example: color blue
+        declineCssButton:
+          type: string
+          description: id of the product
+          example: color white
+
+    ErrorModel:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Message Error
+          example: Not found
+        throwable:
+          type: string
+          description: Exception
+          example: NullPointerException
+        dateTime:
+          type: string
+          description: Exception
+          example: NullPointerException
+
+
+
+    CustomerReportCampaignResponse:
+      type: object
+      properties:
+        customerReportCampaign:
+          type: array
+          description: List Customer Report
+          items:
+            $ref: '#/components/schemas/CustomerReportCampaign'
+
+    CustomerReportCampaign:
+      description: Customer Report Campaign
+      type: object
+      properties:
+        reportName:
+          type: string
+          description: Name of report
+          example: RELATORIO_TESTE
+        campaigns:
+          items:
+            $ref: '#/components/schemas/CampaignData'
+        afterEnd:
+          items:
+            $ref: '#/components/schemas/AfterEndFeatures'
+
+    CampaignMigration:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Campaign name
+          example: Quadro Social para Clientes LARGE
+        fileId:
+          type: string
+          description: Campaign name
+          example: File id with contracts
+        discountData:
+          type: array
+          items:
+            properties:
+              reportName:
+                type: string
+                description: Report name
+                example: PROTESTOS_TESTE_FILTRO
+              transaction:
+                items:
+                  type: string
+                  description: Code transaction
+                  example: ???
+              personType:
+                $ref: '#/components/schemas/PersonType'
+              campaignType:
+                $ref: '#/components/schemas/CampaignType'
+        startDate:
+          type: string
+          format: date
+          description: Date when the discount can be applied if accepted
+          example: "2023-02-25"
+        endDate:
+          type: string
+          format: date
+          description: End date of the discount
+          example: "2023-02-25"
+
+    CampaignMigrationPME:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Campaign name
+          example: Quadro Social para Clientes PME
+        fileId:
+          type: string
+          description: Campaign name
+          example: File id with contracts
+        transaction:
+          type: string
+          description: Transaction in FileID
+          example: CSQS
+        reportName:
+          type: string
+          description: Report name
+          example: PROTESTOS_TESTE_FILTRO
+        personType:
+          $ref: '#/components/schemas/PersonType'
+        campaignType:
+          $ref: '#/components/schemas/CampaignType'
+        startDate:
+          type: string
+          format: date
+          description: Date when the discount can be applied if accepted
+          example: "2023-02-25"
+        endDate:
+          type: string
+          format: date
+          description: End date of the discount
+          example: "2023-02-25"
+
+    CampaignMigrationResponse:
+      type: object
+      properties:
+        campaignId:
+          type: string
+          description: Campaign id
+          example: Quadro Social para Clientes PME
+        transaction:
+          type: string
+          description: Transaction
+          example: Quadro Social para Clientes PME
+        documentErrors:
+          type: string
+          description: Transaction
+          example: Quadro Social para Clientes PME
+        totalDocuments:
+          type: integer
+          description: Total of documents
+          example: Quadro Social para Clientes PME
+
+    RetentionPolicySaveRequestModel:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title retention policy
+          example: Titúlo politica retenção
+        startDate:
+          type: string
+          format: date
+          description: Data de início retenção política
+          example: "2024-08-14"
+        endDate:
+          type: string
+          format: date
+          description: Data fim retenção política
+          example: "2024-08-14"
+        applicationType:
+          $ref: '#/components/schemas/ApplicationTypeRetentionPolicy'
+        retentionBenefits:
+          $ref: '#/components/schemas/RetentionPolicyBenefits'
+        retentionBehaviour:
+          $ref: '#/components/schemas/ActionAfterEnd'
+      required:
+        - title
+        - startDate
+        - endDate
+        - applicationType
+        - retentionBenefits
+        - retentionBehaviour
+
+
+    RetentionPolicySaveResponseModel:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Retention Policy Id
+          example: 6393189134f4c971e490af34
+        title:
+          type: string
+          description: Title retention policy
+          example: Titúlo politica retenção
+        startDate:
+          type: string
+          format: date
+          description: Data de início retenção política
+          example: "2024-08-14"
+        endDate:
+          type: string
+          format: date
+          description: Data fim retenção política
+          example: "2024-08-14"
+        applicationType:
+          $ref: '#/components/schemas/ApplicationTypeRetentionPolicy'
+        retentionBenefits:
+          $ref: '#/components/schemas/RetentionPolicyBenefits'
+        retentionBehaviour:
+          $ref: '#/components/schemas/ActionAfterEnd'
+
+    ApplicationTypeRetentionPolicy:
+      description: Application type retention policy
+      type: string
+      enum:
+        - CAMPAIGN_EXPIRED
+
+    RetentionPolicyTypeResponseModel:
+      type: object
+      description: Get all retention policy behaviour, benefits and application type
+      properties:
+        retentionBenefitsList:
+          items:
+            $ref: '#/components/schemas/RetentionPolicyTypeListModel'
+        retentionBehaviourList:
+          items:
+            $ref: '#/components/schemas/RetentionPolicyTypeListModel'
+        applicationTypeList:
+          items:
+            $ref: '#/components/schemas/RetentionPolicyTypeListModel'
+
+
+    RetentionPolicyTypeListModel:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Key from retention policy type
+        value:
+          type: string
+          description: Value from retention policy type
+
+    RetentionPolicyBenefits:
+      description: Retention policy behaviour
+      type: string
+      enum:
+        - MANTER_BENEFICIO_OFERTA_ORIGINAL
